@@ -53,3 +53,4 @@ class StudentTableWidget(QTableWidget):
                 item = QTableWidgetItem(str(value))
                 self.setItem(row, col, item)
 
+

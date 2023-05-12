@@ -156,14 +156,14 @@ class Ui_MainWindow(object):
         self.student_table_widget.setHorizontalHeaderItem(7, item)
         self.studentTable_scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.console_textEdit = QtWidgets.QTextEdit(self.centralwidget)
-        self.console_textEdit.setGeometry(QtCore.QRect(20, 620, 971, 71))
+        self.console_textEdit.setGeometry(QtCore.QRect(20, 610, 971, 81))
         self.console_textEdit.setReadOnly(True)
         self.console_textEdit.setObjectName("console_textEdit")
         self.console_lbl = QtWidgets.QLabel(self.centralwidget)
         self.console_lbl.setGeometry(QtCore.QRect(30, 590, 81, 21))
         self.console_lbl.setObjectName("console_lbl")
         self.refresh_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.refresh_btn.setGeometry(QtCore.QRect(750, 530, 71, 51))
+        self.refresh_btn.setGeometry(QtCore.QRect(670, 500, 121, 51))
         icon = QtGui.QIcon.fromTheme("view-refresh")
         self.refresh_btn.setIcon(icon)
         self.refresh_btn.setObjectName("refresh_btn")
@@ -220,6 +220,11 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "major"))
         item = self.student_table_widget.horizontalHeaderItem(7)
         item.setText(_translate("MainWindow", "gpa"))
+        self.console_textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">yeet</span></p></body></html>"))
         self.console_lbl.setText(_translate("MainWindow", "Console"))
         self.refresh_btn.setText(_translate("MainWindow", "Refresh"))
         self.menuMain.setTitle(_translate("MainWindow", "File"))

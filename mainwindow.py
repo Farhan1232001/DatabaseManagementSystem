@@ -7,6 +7,11 @@ from Ui_MainWindow import Ui_MainWindow
 from student_table_widget import StudentTableWidget
 from database_manager import DatabaseManager
 from console_widget import ConsoleWidget
+import os
+
+# Set paths to Assets
+current_dir = os.path.dirname(os.path.abspath(__file__))
+icon_path = os.path.join(current_dir, 'assets', 'refreshIcon.png')
 
 
 
@@ -52,8 +57,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Set up utility buttons
         refreshBtn = self.ui.refresh_btn
-        refreshBtn.setIcon(QIcon.fromTheme('view-refresh'))
-
+        refreshBtn.setIcon(QIcon.fromTheme(icon_path))
+        
+        print(self.student_table_widget.rowCount())
 
     def on_click_addStudent_btn(self):
         # Check if all form fields are filled out
@@ -90,12 +96,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.phoneNum_lineEdit.clear()
         self.ui.email_lineEdit.clear()
         self.ui.department_lineEdit.clear()
-        self.ui.major_combobox.clear()
+        self.ui.major_lineEdit.clear()
         self.ui.gpa_spinBox.clear()
         self.ui.birthday_lineEdit.clear()
 
         # Refresh the student table
-        # self.refresh_student_table()
+        self.refresh_student_table()
 
 
     def on_click_deleteStudent_btn(self):
@@ -140,5 +146,4 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def refresh_student_table(self):
         # Retrieve the list of students from the database and update the student table widget
-        students = self.database_manager.get_all_students()
-        self.student_table_widget.set_students(students)
+        self.student_table_widget.load_students()
