@@ -27,9 +27,9 @@ class StudentTableWidget(QTableWidget):
 
     def setup_ui(self):
         # Set up the table widget
-        self.setColumnCount(8)
-        self.setHorizontalHeaderLabels(self.database_manager.getStudentFields())
+        self.tableWidget.setColumnCount(8)
         self.load_students()
+        self.tableWidget.setHorizontalHeaderLabels(self.database_manager.getStudentFields())
 
         # Set the table widget to read-only mode
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -48,6 +48,8 @@ class StudentTableWidget(QTableWidget):
                 self.tableWidget.setItem(row, col, item)
 
     def on_item_changed(self, row, column):
+        if self.isInUpdateMode == False: return
+
         # Retrieve the new cell value and update the corresponding record in the database
         item = self.tableWidget.item(row, column)
 

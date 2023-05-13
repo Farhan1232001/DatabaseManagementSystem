@@ -182,3 +182,12 @@ class DatabaseManager:
 
         print("Result: ", result)
         return result
+
+    def get_column_count(self, table_name):
+        query = f"SELECT COUNT(*) FROM pragma_table_info('{table_name}')"
+        self.cursor.execute(query)
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return 0
