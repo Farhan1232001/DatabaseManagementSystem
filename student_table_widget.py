@@ -6,7 +6,7 @@ class StudentTableWidget(QTableWidget):
     Creates table widget. Can load items to widget and update itself.
     """
     def __init__(self, parent = None):
-        super(StudentTableWidget, self).__init__(parent)
+        super(StudentTableWidget, self).__init__()
         self.database_manager = DatabaseManager()
         
         # Get table widget from parent (parent of StudentTableWidget is MainWindow)
