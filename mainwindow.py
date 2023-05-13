@@ -21,6 +21,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.database_manager = DatabaseManager()
 
+
+        
+
                 
 
     def setup_ui(self):
@@ -43,13 +46,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # Add comboboxes with data
         # ----------------------------------------------------------------
 
+        # Set up console window
+        self.consoleWidget = ConsoleWidget(self)
+
         # Set up table
         self.student_table_widget = StudentTableWidget(self)
-
-        # Set up console window
-        self.console = ConsoleWidget()
-        self.console.write("abcdefghijklmnopqrstuvwxyz")
-        print(self.console.toPlainText())
 
         # Set up utility buttons
         refreshBtn = self.ui.refresh_btn
@@ -74,6 +75,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if firstName == '' or lastName == '' or id == '' or phoneNum == '' or email == '' or department == '' or major == '' or gpa == '':
             QtWidgets.QMessageBox.warning(self, 'Warning', 'Please fill out all fields!')
+            self.consoleWidget.println('FAILED to add Entry: Please fill out all fields!')
             return
 
         # Add the student to the database
@@ -84,12 +86,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.firstName_lineEdit.clear()
         self.ui.lastName_lineEdit.clear()
         self.ui.email_lineEdit.clear()
-
-        self.ui.firstName_lineEdit.clear()
-        self.ui.lastName_lineEdit.clear()
         self.ui.studentID_add_lineEdit.clear()
         self.ui.phoneNum_lineEdit.clear()
-        self.ui.email_lineEdit.clear()
         self.ui.department_lineEdit.clear()
         self.ui.major_lineEdit.clear()
         self.ui.gpa_spinBox.clear()
@@ -136,8 +134,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def refresh_student_table(self):
         # Retrieve the list of students from the database and update the student table widget
+        self.consoleWidget.println("Table Refreshed")
         self.student_table_widget.load_students()
-        self.update()
 
     def show_main_window(self):
         self.show()

@@ -1,5 +1,5 @@
 import sqlite3
-
+from console_widget import ConsoleWidget
 class DatabaseManager:
     
     def __init__(self):
@@ -15,7 +15,7 @@ class DatabaseManager:
             # If the students table does not exist, create it
             self.c.execute('''
                 CREATE TABLE students (
-                    row TEXT PRIMARY KEY,
+                    id TEXT PRIMARY KEY,
                     firstName TEXT,
                     lastName TEXT,
                     phoneNumber TEXT,
@@ -67,6 +67,25 @@ class DatabaseManager:
             return f"{column.capitalize()} for student {row} updated successfully."
         except:
             return f"Failed to update {column} for student {row}."
+        
+    def update_student_field(self, row, col, new_value, student_id):
+        # Map the column index to the corresponding field name
+        field_names = self.getStudentFields()
+        field_name = field_names[col]
+
+        # Build the SQL query
+        query = f"UPDATE students SET {field_name} = ? WHERE id = ?"
+
+        try:
+            # Execute the SQL query with the given data
+            self.c.execute(query, (new_value, student_id))
+
+            # Commit the changes
+            self.con.commit()
+            return f"{field_name.capitalize()} for student {student_id} updated successfully."
+        except Exception as e:
+            return f"Failed to update {field_name} for student {student_id}: {str(e)}"
+
 
     def delete_student(self, student_id):
         # Build the SQL query to find the row containing the student_id
@@ -85,8 +104,10 @@ class DatabaseManager:
 
                 # Commit the changes
                 self.con.commit()
+                self.console.println(f"Student {student_id} deleted successfully.")
                 return f"Student {student_id} deleted successfully."
             except:
+                self.console.println(f"Failed to delete student {student_id}.")
                 return f"Failed to delete student {student_id}."
         else:
             return f"No student found with ID {student_id}."
@@ -149,18 +170,15 @@ class DatabaseManager:
 
 
     def get_all_students(self):
+        """Retrieves all entries in students table."""
         c = self.c
-
-        # Retrieve the column names from the specified table
-        c.execute(f"PRAGMA table_info(students)")
-        column_names = [row[1] for row in c.fetchall()]
 
         # Retrieve all rows from the specified table
         c.execute(f"SELECT * FROM students")
         rows = c.fetchall()
 
         # Combine the column names and rows into a list of lists
-        result = [column_names] + list(rows)
+        result = [] + list(rows)
 
-        print("Reuslt: ", result)
+        print("Result: ", result)
         return result

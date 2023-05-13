@@ -33,7 +33,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="AddTab">
      <attribute name="title">
@@ -166,49 +166,27 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>20</y>
-        <width>301</width>
-        <height>41</height>
+        <y>80</y>
+        <width>160</width>
+        <height>21</height>
        </rect>
       </property>
-      <layout class="QFormLayout" name="formLayout_3">
+      <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="updateMode_lbl">
          <property name="text">
-          <string>Student ID: </string>
+          <string>Enter Update Mode</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QCheckBox" name="updateMode_checkbox">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="QCheckBox" name="checkBox">
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>90</y>
-        <width>87</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>CheckBox</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>130</y>
-        <width>211</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Update a field by clicking on table</string>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="delete_tab">

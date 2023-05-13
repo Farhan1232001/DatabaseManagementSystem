@@ -8,9 +8,18 @@ class StudentTableWidget(QTableWidget):
     def __init__(self, parent = None):
         super(StudentTableWidget, self).__init__()
         self.database_manager = DatabaseManager()
+
+        self.parent = parent
         
-        # Get table widget from parent (parent of StudentTableWidget is MainWindow)
+        # Get widgets from parent (parent is MainWindow)
         self.tableWidget = parent.ui.student_table_widget
+        self.updateMode_checkbox = parent.ui.updateMode_checkbox
+
+        # Connect signals and slots
+        self.tableWidget.cellChanged.connect(self.on_item_changed)
+        self.updateMode_checkbox.stateChanged.connect(self.toggleUpdateMode)
+
+        self.isInUpdateMode = False
 
         self.setup_ui()
         
@@ -19,8 +28,13 @@ class StudentTableWidget(QTableWidget):
     def setup_ui(self):
         # Set up the table widget
         self.setColumnCount(8)
-        self.setHorizontalHeaderLabels(["First Name", "Last Name", "ID", "Phone", "Email", "Department", "Major", "GPA"])
+        self.setHorizontalHeaderLabels(self.database_manager.getStudentFields())
         self.load_students()
+
+        # Set the table widget to read-only mode
+        self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.updateMode_checkbox.setChecked(False)
+        
 
     def load_students(self):
         # Retrieve the list of students from the database and populate the table widget
@@ -33,16 +47,53 @@ class StudentTableWidget(QTableWidget):
                 item = QTableWidgetItem(str(value))
                 self.tableWidget.setItem(row, col, item)
 
-    def on_item_changed(self, item):
+    def on_item_changed(self, row, column):
         # Retrieve the new cell value and update the corresponding record in the database
+        item = self.tableWidget.item(row, column)
+
+        if item == None: return
+
         new_value = item.text()
-        row = item.row()
-        col = item.column()
-        student_id = self.item(row, 0).text()
-        column_name = self.horizontalHeaderItem(col).text()
+        student_id = self.tableWidget.item(row, 0).text()
+        column_name = self.tableWidget.horizontalHeaderItem(column).text()
 
         # Update the record in the database
-        self.database_manager.update_student_info(student_id, column_name, new_value)
+        resultSuccess = self.database_manager.update_student_field(row, column, new_value, student_id)
+
+        if resultSuccess:
+            print(resultSuccess)  
+        else:
+            print(f"Failed to update {column_name} for student {row}.") 
+
+
+
+        # # Retrieve the new cell value and update the corresponding record in the database
+        # item = self.tableWidget.item(row, column)
+        # new_value = item.text()
+        # row = item.row()
+        # col = item.column()
+        # student_id = self.tableWidget.item(row, 0).text()
+        # column_name = self.horizontalHeaderItem(col).text()
+
+        # # Update the record in the database
+        # self.database_manager.update_student(row, column, new_value)
+
+    def toggleUpdateMode(self):
+        if self.isInUpdateMode == True:
+            self.isInUpdateMode = False
+            self.updateMode_checkbox.setChecked(False)
+
+            # Set the table widget to read-only mode
+            self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
+
+            self.parent.consoleWidget.println("UpdateMode SET to FALSE")
+        else:
+            self.isInUpdateMode = True
+            self.updateMode_checkbox.setChecked(True)
+            
+            # Turn off the read-only mode and allow editing again
+            self.tableWidget.setEditTriggers(QTableWidget.DoubleClicked | QTableWidget.EditKeyPressed)
+            self.parent.consoleWidget.println("UpdateMode SET to TRUE")
 
 
     def load_hardcoded_data(self):
