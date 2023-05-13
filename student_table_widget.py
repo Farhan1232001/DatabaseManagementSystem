@@ -19,6 +19,7 @@ class StudentTableWidget(QTableWidget):
 
     def load_students(self):
         # Retrieve the list of students from the database and populate the table widget
+        self.clearContents()
         students = self.database_manager.get_all_students()
 
         self.setRowCount(len(students))

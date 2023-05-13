@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1007, 745)
+        MainWindow.resize(1167, 745)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.CRUDTabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -23,8 +23,11 @@ class Ui_MainWindow(object):
         self.CRUDTabWidget.setObjectName("CRUDTabWidget")
         self.AddTab = QtWidgets.QWidget()
         self.AddTab.setObjectName("AddTab")
+        self.addStudent_btn = QtWidgets.QPushButton(self.AddTab)
+        self.addStudent_btn.setGeometry(QtCore.QRect(100, 370, 113, 32))
+        self.addStudent_btn.setObjectName("addStudent_btn")
         self.formLayoutWidget = QtWidgets.QWidget(self.AddTab)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 10, 381, 341))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(50, 10, 251, 341))
         self.formLayoutWidget.setObjectName("formLayoutWidget")
         self.AddStudentFormLayout = QtWidgets.QFormLayout(self.formLayoutWidget)
         self.AddStudentFormLayout.setContentsMargins(0, 0, 0, 0)
@@ -83,9 +86,6 @@ class Ui_MainWindow(object):
         self.birthday_lineEdit = QtWidgets.QLineEdit(self.formLayoutWidget)
         self.birthday_lineEdit.setObjectName("birthday_lineEdit")
         self.AddStudentFormLayout.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.birthday_lineEdit)
-        self.addStudent_btn = QtWidgets.QPushButton(self.AddTab)
-        self.addStudent_btn.setGeometry(QtCore.QRect(150, 400, 113, 32))
-        self.addStudent_btn.setObjectName("addStudent_btn")
         self.CRUDTabWidget.addTab(self.AddTab, "")
         self.EditTab = QtWidgets.QWidget()
         self.EditTab.setObjectName("EditTab")
@@ -169,7 +169,7 @@ class Ui_MainWindow(object):
         self.refresh_btn.setObjectName("refresh_btn")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1007, 24))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1167, 24))
         self.menubar.setObjectName("menubar")
         self.menuMain = QtWidgets.QMenu(self.menubar)
         self.menuMain.setObjectName("menuMain")
@@ -186,6 +186,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.addStudent_btn.setText(_translate("MainWindow", "Add Student"))
         self.firstName_lbl.setText(_translate("MainWindow", "First Name"))
         self.lastName_lbl_2.setText(_translate("MainWindow", "Last Name"))
         self.studentID_add_lbl.setText(_translate("MainWindow", "Student ID"))
@@ -195,7 +196,6 @@ class Ui_MainWindow(object):
         self.major_lbl.setText(_translate("MainWindow", "Major"))
         self.gpa_lbl.setText(_translate("MainWindow", "GPA"))
         self.birthday_lbl.setText(_translate("MainWindow", "Birthday"))
-        self.addStudent_btn.setText(_translate("MainWindow", "Add Student"))
         self.CRUDTabWidget.setTabText(self.CRUDTabWidget.indexOf(self.AddTab), _translate("MainWindow", "Add"))
         self.label.setText(_translate("MainWindow", "Student ID: "))
         self.checkBox.setText(_translate("MainWindow", "CheckBox"))
@@ -224,7 +224,7 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">yeet</span></p></body></html>"))
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.console_lbl.setText(_translate("MainWindow", "Console"))
         self.refresh_btn.setText(_translate("MainWindow", "Refresh"))
         self.menuMain.setTitle(_translate("MainWindow", "File"))

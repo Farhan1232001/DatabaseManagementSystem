@@ -17,14 +17,13 @@ icon_path = os.path.join(current_dir, 'assets', 'refreshIcon.png')
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
-        super().__init__()
+        super().__init__()  # initlaises QMainWindow Base Class
+        self.setup_ui()
 
         self.student_table_widget = StudentTableWidget()
-        # self.add_student_dialog = AddStudentDialog()
-        # self.edit_student_dialog = EditStudentDialog()
         self.database_manager = DatabaseManager()
 
-        self.setup_ui()
+        
         #self.show_login_dialog()
         
 
@@ -32,7 +31,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Set up the main window layout and widgets using Qt Designer
         # ----------------------------------------------------------------
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        self.ui.setupUi(self) #  inherited from the Ui_MainWindow class. 
 
         self.setWindowTitle("Student Database Management System")
 
@@ -54,12 +53,12 @@ class MainWindow(QtWidgets.QMainWindow):
         # Set up console window
         self.console = ConsoleWidget()
         self.console.write("hi")
+        print(self.console.toPlainText())
 
         # Set up utility buttons
         refreshBtn = self.ui.refresh_btn
         refreshBtn.setIcon(QIcon.fromTheme(icon_path))
         
-        print(self.student_table_widget.rowCount())
 
     def on_click_addStudent_btn(self):
         # Check if all form fields are filled out
@@ -118,7 +117,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.studentID_add_lineEdit.clear()
 
         # Refresh the student table
-        # self.refresh_student_table()
+        self.refresh_student_table()
 
     def show_login_dialog(self):
         # Display the login dialog
@@ -147,3 +146,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def refresh_student_table(self):
         # Retrieve the list of students from the database and update the student table widget
         self.student_table_widget.load_students()
+
+    def show_main_window(self):
+        self.show()

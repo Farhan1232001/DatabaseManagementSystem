@@ -6,8 +6,7 @@ class ConsoleWidget(QTextEdit):
     def __init__(self):
         super().__init__()
         
-        
-
+    
     def setup_ui(self):
         """Set up the console widget"""
         # Disable editing
@@ -16,5 +15,6 @@ class ConsoleWidget(QTextEdit):
     def write(self, text):
         """Method called when printing to stdout"""
         # Append the text to the QTextEdit
-        self.append(text)
+        #self.append(text)
+        self.setText(text)
         
