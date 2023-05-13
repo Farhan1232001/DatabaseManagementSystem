@@ -20,11 +20,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_ui()        
 
         self.database_manager = DatabaseManager()
-
-
-        
-
-                
+          
 
     def setup_ui(self):
         # Set up the main window layout and widgets using Qt Designer
@@ -77,21 +73,19 @@ class MainWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self, 'Warning', 'Please fill out all fields!')
             self.consoleWidget.println('FAILED to add Entry: Please fill out all fields!')
             return
+        
+        if self.database_manager.doesStudentIdExist(id):
+            self.consoleWidget.println("Student ID already exists")
+            print("Student ID already exists")
+            self.ui.studentID_add_lineEdit.clear()
+
 
         # Add the student to the database
         self.database_manager.add_student(data)
         print("add clicked:  ", data)
 
-        # Clear the form fields
-        self.ui.firstName_lineEdit.clear()
-        self.ui.lastName_lineEdit.clear()
-        self.ui.email_lineEdit.clear()
-        self.ui.studentID_add_lineEdit.clear()
-        self.ui.phoneNum_lineEdit.clear()
-        self.ui.department_lineEdit.clear()
-        self.ui.major_lineEdit.clear()
-        self.ui.gpa_spinBox.clear()
-        self.ui.birthday_lineEdit.clear()
+        # Clearn form
+        self.clearForm()
 
         # Refresh the student table
         self.refresh_student_table()
@@ -134,8 +128,20 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def refresh_student_table(self):
         # Retrieve the list of students from the database and update the student table widget
-        self.consoleWidget.println("Table Refreshed")
         self.student_table_widget.load_students()
 
     def show_main_window(self):
         self.show()
+
+
+    def clearForm(self):
+        # Clear the form fields
+        self.ui.firstName_lineEdit.clear()
+        self.ui.lastName_lineEdit.clear()
+        self.ui.email_lineEdit.clear()
+        self.ui.studentID_add_lineEdit.clear()
+        self.ui.phoneNum_lineEdit.clear()
+        self.ui.department_lineEdit.clear()
+        self.ui.major_lineEdit.clear()
+        self.ui.gpa_spinBox.clear()
+        self.ui.birthday_lineEdit.clear()

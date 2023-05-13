@@ -14,9 +14,10 @@ class StudentTableWidget(QTableWidget):
         # Get widgets from parent (parent is MainWindow)
         self.tableWidget = parent.ui.student_table_widget
         self.updateMode_checkbox = parent.ui.updateMode_checkbox
+        self.console = parent.consoleWidget
 
         # Connect signals and slots
-        self.tableWidget.cellChanged.connect(self.on_item_changed)
+        self.tableWidget.itemChanged.connect(self.on_item_changed)
         self.updateMode_checkbox.stateChanged.connect(self.toggleUpdateMode)
 
         self.isInUpdateMode = False
@@ -34,6 +35,8 @@ class StudentTableWidget(QTableWidget):
         # Set the table widget to read-only mode
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.updateMode_checkbox.setChecked(False)
+
+        self.field_names = self.database_manager.getStudentFields()
         
 
     def load_students(self):
@@ -47,17 +50,20 @@ class StudentTableWidget(QTableWidget):
                 item = QTableWidgetItem(str(value))
                 self.tableWidget.setItem(row, col, item)
 
-    def on_item_changed(self, row, column):
+    def on_item_changed(self, item):
         if self.isInUpdateMode == False: return
-
-        # Retrieve the new cell value and update the corresponding record in the database
-        item = self.tableWidget.item(row, column)
-
         if item == None: return
+        row = item.row()
+        column = item.column()
 
         new_value = item.text()
         student_id = self.tableWidget.item(row, 0).text()
         column_name = self.tableWidget.horizontalHeaderItem(column).text()
+
+        if column_name == self.field_names[0]:
+            self.console.println("UPDATING ID NOT ALLOWED")
+            print("cannot update id...")
+            return
 
         # Update the record in the database
         resultSuccess = self.database_manager.update_student_field(row, column, new_value, student_id)

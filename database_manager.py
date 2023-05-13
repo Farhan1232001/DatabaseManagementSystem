@@ -191,3 +191,14 @@ class DatabaseManager:
             return result[0]
         else:
             return 0
+        
+    def doesStudentIdExist(self, student_id):
+        # Build the SQL query to check if a student with the given ID exists
+        query = "SELECT COUNT(*) FROM students WHERE id = ?"
+        self.c.execute(query, (student_id,))
+        result = self.c.fetchone()
+
+        if result[0] > 0:
+            return True  # Student exists
+        else:
+            return False  # Student does not exist
