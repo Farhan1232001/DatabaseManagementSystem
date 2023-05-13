@@ -14,7 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1167, 745)
+        MainWindow.resize(1009, 744)
+        MainWindow.setMinimumSize(QtCore.QSize(1009, 744))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.CRUDTabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -169,7 +170,7 @@ class Ui_MainWindow(object):
         self.refresh_btn.setObjectName("refresh_btn")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1167, 24))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1009, 24))
         self.menubar.setObjectName("menubar")
         self.menuMain = QtWidgets.QMenu(self.menubar)
         self.menuMain.setObjectName("menuMain")

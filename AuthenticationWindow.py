@@ -6,7 +6,7 @@ class AuthenticationWindow(QtWidgets.QWidget):
     login_successful = QtCore.pyqtSignal()  # Signal to indicate successful login
 
     def __init__(self):
-        super().__init__()
+        super(AuthenticationWindow, self).__init__()
         self.__isAuthenticated = False
         
         # Set up the user interface from the generated UI file

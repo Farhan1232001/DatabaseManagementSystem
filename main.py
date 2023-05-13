@@ -1,15 +1,15 @@
 from mainwindow import MainWindow
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtGui import QIcon
 from AuthenticationWindow import AuthenticationWindow
-import os
+import os, sys
 
 # Set paths to Assets
 current_dir = os.path.dirname(os.path.abspath(__file__))
 appIcon = os.path.join(current_dir, 'assets', 'AppIcon.png')
 
-if __name__ == "__main__":
-    
+
+def main():
     app = QtWidgets.QApplication([])
 
     # Set the light mode style
@@ -24,6 +24,14 @@ if __name__ == "__main__":
     authentication_window.login_successful.connect(main_window.show_main_window)
 
     # Show 1st widget of app
-    authentication_window.show()
+    #authentication_window.show()
 
-    app.exec_()
+    main_window.show()  # for debuging purposes
+
+    sys.exit(app.exec())
+
+
+
+
+if __name__ == "__main__":
+    main()  

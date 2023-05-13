@@ -5,10 +5,15 @@ class StudentTableWidget(QTableWidget):
     """
     Creates table widget. Can load items to widget and update itself.
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent = None):
+        super(StudentTableWidget, self).__init__(parent)
         self.database_manager = DatabaseManager()
+        
+        # Get table widget from parent (parent of StudentTableWidget is MainWindow)
+        self.tableWidget = parent.ui.student_table_widget
+
         self.setup_ui()
+        
 
 
     def setup_ui(self):
@@ -19,14 +24,14 @@ class StudentTableWidget(QTableWidget):
 
     def load_students(self):
         # Retrieve the list of students from the database and populate the table widget
-        self.clearContents()
+        self.tableWidget.clearContents()
         students = self.database_manager.get_all_students()
 
-        self.setRowCount(len(students))
+        self.tableWidget.setRowCount(len(students))
         for row, student in enumerate(students):
             for col, value in enumerate(student):
                 item = QTableWidgetItem(str(value))
-                self.setItem(row, col, item)
+                self.tableWidget.setItem(row, col, item)
 
     def on_item_changed(self, item):
         # Retrieve the new cell value and update the corresponding record in the database

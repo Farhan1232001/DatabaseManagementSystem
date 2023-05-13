@@ -14,18 +14,14 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 icon_path = os.path.join(current_dir, 'assets', 'refreshIcon.png')
 
 
-
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
-        super().__init__()  # initlaises QMainWindow Base Class
-        self.setup_ui()
+        super(MainWindow, self).__init__()  # initalize QMainWindow Base Class
+        self.setup_ui()        
 
-        self.student_table_widget = StudentTableWidget()
         self.database_manager = DatabaseManager()
 
-        
-        #self.show_login_dialog()
-        
+                
 
     def setup_ui(self):
         # Set up the main window layout and widgets using Qt Designer
@@ -42,17 +38,17 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.ui.actionLogout.triggered.connect(self.show_login_dialog)
         # self.ui.actionAdd_Student.triggered.connect(self.show_add_student_dialog)
         # self.ui.actionEdit_Student.triggered.connect(self.show_edit_student_dialog)
-        # self.ui.actionRefresh.triggered.connect(self.refresh_student_table)
+        self.ui.refresh_btn.clicked.connect(self.refresh_student_table)
         
         # Add comboboxes with data
         # ----------------------------------------------------------------
 
         # Set up table
-        table = self.ui.student_table_widget
+        self.student_table_widget = StudentTableWidget(self)
 
         # Set up console window
         self.console = ConsoleWidget()
-        self.console.write("hi")
+        self.console.write("abcdefghijklmnopqrstuvwxyz")
         print(self.console.toPlainText())
 
         # Set up utility buttons
@@ -119,11 +115,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # Refresh the student table
         self.refresh_student_table()
 
-    def show_login_dialog(self):
-        # Display the login dialog
-        if self.login_dialog.exec_() == QtWidgets.QDialog.Accepted:
-            # If the user successfully logs in, display the student table widget
-            self.show_student_table_widget()
 
     def show_student_table_widget(self):
         # Set up the student table widget and display it
@@ -146,6 +137,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def refresh_student_table(self):
         # Retrieve the list of students from the database and update the student table widget
         self.student_table_widget.load_students()
+        self.update()
 
     def show_main_window(self):
         self.show()

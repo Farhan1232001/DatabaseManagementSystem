@@ -4,7 +4,7 @@ import sys
 class ConsoleWidget(QTextEdit):
     """Console is where output is generated."""
     def __init__(self):
-        super().__init__()
+        super(ConsoleWidget, self).__init__()
         
     
     def setup_ui(self):
@@ -15,6 +15,6 @@ class ConsoleWidget(QTextEdit):
     def write(self, text):
         """Method called when printing to stdout"""
         # Append the text to the QTextEdit
-        #self.append(text)
+        self.append(text)
         self.setText(text)
         
