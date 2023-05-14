@@ -28,7 +28,7 @@ def main():
     # Show 1st widget of app
     #authentication_window.show()
 
-    settings.show()  # for debuging purposes
+    main_window.show()  # for debuging purposes
 
     sys.exit(app.exec())
 

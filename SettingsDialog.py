@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QMessageBox, QTableWidgetItem
+from PyQt5.QtWidgets import QDialog, QMessageBox, QTableWidgetItem, QTableWidget
 from Ui_SettingsWindow import Ui_SettingsWindow
 from Authentication import Authentication
 
@@ -10,24 +10,28 @@ class SettingsDialog(QDialog):
         self.ui.setupUi(self)
 
         self.parent = parent
-        self.tableWidget = self.ui.adminInfo_tableWidget
+        
 
         self.authenticationManager = Authentication()
 
         self.setup_ui()
 
     def setup_ui(self):
-       
-
+        self.tableWidget = self.ui.adminInfo_tableWidget
+        
+        
         # Connect signals and slots
         # ----------------------------------------------------------------
         self.ui.add_admin_btn.clicked.connect(self.addAdministrator)
+        self.ui.delete_btn.clicked.connect(self.deleteAdministrator)
 
         # Set attributes of the dialog
         self.setWindowTitle("Settings")
-        self.tableWidget.setItem(0,0,QTableWidgetItem("10"))
 
-        #self.fillInAdminTable()
+        self.fillInAdminTable()
+        
+        # Set the table widget to read-only mode
+        self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
     def fillInAdminTable(self):
         table = self.authenticationManager.getAdminTable()
@@ -43,6 +47,10 @@ class SettingsDialog(QDialog):
             for col in range(num_cols):
                 item = QTableWidgetItem(str(table[row][col]))
                 self.tableWidget.setItem(row, col, item)
+
+        # Resize columns and rows to fit the contents
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
 
 
     def addAdministrator(self):
@@ -72,13 +80,18 @@ class SettingsDialog(QDialog):
 
     def deleteAdministrator(self):
         # Check inputs
-        username = self.ui.username_lineEdit.text()
-        password = self.ui.password_lineEdit.text()
+        username = self.ui.username_del_lineEdit.text()
+        password = self.ui.password_del_lineEdit.text()
 
         if username == "" or password == "": return
 
         if self.authenticationManager.check_usr(username, password):
             self.authenticationManager.delete_usr(username)
+            QMessageBox.warning(self, "Administrator removed from Admin Table")
+            print("Administrator removed from Admin Table")
+        else:
+            QMessageBox.warning(self, "Admin login/password incorrect.")
+            print("Admin login/password incorrect.")
 
         self.ui.username_del_lineEdit.clear()
         self.ui.password_del_lineEdit.clear()

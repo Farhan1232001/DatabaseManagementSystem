@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>663</width>
+    <width>874</width>
     <height>348</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>663</width>
+    <width>874</width>
     <height>348</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>663</width>
+    <width>874</width>
     <height>348</height>
    </size>
   </property>
@@ -30,9 +30,12 @@
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>341</width>
+     <width>511</width>
      <height>261</height>
     </rect>
+   </property>
+   <property name="gridStyle">
+    <enum>Qt::DashLine</enum>
    </property>
    <column>
     <property name="text">
@@ -69,7 +72,7 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>550</x>
      <y>20</y>
      <width>101</width>
      <height>16</height>
@@ -82,7 +85,7 @@
   <widget class="QPushButton" name="add_admin_btn">
    <property name="geometry">
     <rect>
-     <x>520</x>
+     <x>680</x>
      <y>140</y>
      <width>113</width>
      <height>32</height>
@@ -95,7 +98,7 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>550</x>
      <y>50</y>
      <width>251</width>
      <height>80</height>
@@ -127,7 +130,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>550</x>
      <y>190</y>
      <width>91</width>
      <height>16</height>
@@ -140,7 +143,7 @@
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>550</x>
      <y>210</y>
      <width>251</width>
      <height>80</height>
@@ -172,7 +175,7 @@
   <widget class="QPushButton" name="delete_btn">
    <property name="geometry">
     <rect>
-     <x>520</x>
+     <x>680</x>
      <y>300</y>
      <width>113</width>
      <height>32</height>

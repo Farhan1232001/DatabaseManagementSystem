@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMenu, QMenuBar, QAction
+from PyQt5.QtWidgets import QMenu, QMenuBar, QTableWidget
 from PyQt5.QtGui import QIcon
 
 from Ui_MainWindow import Ui_MainWindow
@@ -45,6 +45,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Set up table
         self.student_table_widget = StudentTableWidget(self)
+
+        # Enable smooth scrolling
+        self.student_table_widget.setVerticalScrollMode(QTableWidget.ScrollMode.ScrollPerPixel)
+        self.student_table_widget.horizontalScrollBar().setSingleStep(1)
+        self.student_table_widget.verticalScrollBar().setSingleStep(1)
 
         # Set up Buttons
         refreshBtn = self.ui.refresh_btn
