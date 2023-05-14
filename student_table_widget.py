@@ -51,8 +51,15 @@ class StudentTableWidget(QTableWidget):
                 self.tableWidget.setItem(row, col, item)
 
     def on_item_changed(self, item):
-        if self.isInUpdateMode == False: return
-        if item == None: return
+        if self.isInUpdateMode == False:
+            return
+
+        if item is None:
+            return
+
+        # Disconnect the itemChanged signal temporarily (so that on_item_changed isnt called recursively)
+        self.tableWidget.itemChanged.disconnect(self.on_item_changed)
+
         row = item.row()
         column = item.column()
 
@@ -74,6 +81,10 @@ class StudentTableWidget(QTableWidget):
             print(f"Failed to update {column_name} for student {row}.") 
 
         self.load_students()
+
+        # Reconnect the itemChanged signal
+        self.tableWidget.itemChanged.connect(self.on_item_changed)
+
 
 
 

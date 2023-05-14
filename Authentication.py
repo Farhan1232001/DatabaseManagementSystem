@@ -4,24 +4,29 @@ import sqlite3
 import hashlib
 
 class Authentication:
-    def __init__(self, db_file='students.db'):
-        self.con = sqlite3.connect(db_file)
-        self.cur = self.con.cursor()
-        
+    __instance = None
 
-        # Create the authentication table if it doesn't exist
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS Administrators (
-                            username TEXT PRIMARY KEY,
-                            password TEXT NOT NULL
-                        )''')
+    def __new__(cls, db_file='students.db'):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            cls.__instance.con = sqlite3.connect(db_file)
+            cls.__instance.cur = cls.__instance.con.cursor()
 
-        # Add a default user and password if the database is being created for the first time
-        self.cur.execute('SELECT COUNT(*) FROM Administrators')
-        count = self.cur.fetchone()[0]
-        if count == 0:
-            hashed_password = hashlib.sha256('password'.encode('utf-8')).hexdigest()
-            self.cur.execute('INSERT INTO Administrators VALUES (?, ?)', ('admin', hashed_password))
-            self.con.commit()
+            # Create the authentication table if it doesn't exist
+            cls.__instance.cur.execute('''CREATE TABLE IF NOT EXISTS Administrators (
+                                            username TEXT PRIMARY KEY,
+                                            password TEXT NOT NULL
+                                        )''')
+
+            # Add a default user and password if the database is being created for the first time
+            cls.__instance.cur.execute('SELECT COUNT(*) FROM Administrators')
+            count = cls.__instance.cur.fetchone()[0]
+            if count == 0:
+                hashed_password = hashlib.sha256('password'.encode('utf-8')).hexdigest()
+                cls.__instance.cur.execute('INSERT INTO Administrators VALUES (?, ?)', ('admin', hashed_password))
+                cls.__instance.con.commit()
+
+        return cls.__instance
 
     # def __del__(self):
     #     # Close the cursor and connection
@@ -35,30 +40,38 @@ class Authentication:
     # Check if a user is valid
     def check_usr(self, username, password):
         """Checks if usrname/passwrd in admin tableReturns true if valid"""
-        # Execute a SELECT query to check if the username exists
-        self.cur.execute('SELECT * FROM Administrators WHERE username=?', (username,))
-        row = self.cur.fetchone()
-        if row is None:
-            return False
-        else:
-            # Hash the input password using the SHA-256 algorithm
-            hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-            # Check if the hashed password matches the one in the database
-            if row[1] == hashed_password:
-                return True
-            else:
+        try:
+            # Execute a SELECT query to check if the username exists
+            self.cur.execute('SELECT * FROM Administrators WHERE username=?', (username,))
+            row = self.cur.fetchone()
+            if row is None:
                 return False
+            else:
+                # Hash the input password using the SHA-256 algorithm
+                hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+                # Check if the hashed password matches the one in the database
+                if row[1] == hashed_password:
+                    return True
+                else:
+                    return False
+        except:
+            self.con.rollback()
+            return False
 
 
     def check_username(self, username):
         """Checks if usrname in admin tableReturns true if it exists"""
-        # Execute a SELECT query to check if the password exists
-        self.cur.execute('SELECT * FROM Administrators WHERE username=?', (username,))
-        row = self.cur.fetchone()
-        if row is None:
+        try:
+            # Execute a SELECT query to check if the password exists
+            self.cur.execute('SELECT * FROM Administrators WHERE username=?', (username,))
+            row = self.cur.fetchone()
+            if row is None:
+                return False
+            else:
+                return True
+        except:
+            self.con.rollback()
             return False
-        else:
-            return True
 
     def check_password(self, password):
         """Checks if the given password exists in the admin table.
@@ -67,46 +80,58 @@ class Authentication:
         bool: True if the password exists, False otherwise.
         """
         # Execute a SELECT query to check if the password exists
-        self.cur.execute('SELECT * FROM Administrators WHERE password=?', (password,))
-        row = self.cur.fetchone()
+        try:
+            self.cur.execute('SELECT * FROM Administrators WHERE password=?', (password,))
+            row = self.cur.fetchone()
 
-        if row is None:
-            return False
-        else:
-            # Hash the input password using the SHA-256 algorithm
-            hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-            # Check if the hashed password matches the one in the database
-            if row[1] == hashed_password:
-                return True
-            else:
+            if row is None:
                 return False
+            else:
+                # Hash the input password using the SHA-256 algorithm
+                hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+                # Check if the hashed password matches the one in the database
+                if row[1] == hashed_password:
+                    return True
+                else:
+                    return False
+        except:
+            self.con.rollback()
+            return False
 
 
     def getAdminTable(self):
         """Returns the contents of the Administrators table"""
-        self.cur.execute('SELECT * FROM Administrators')
-        rows = self.cur.fetchall()
-        return rows
+        try:
+            self.cur.execute('SELECT * FROM Administrators')
+            rows = self.cur.fetchall()
+            return rows
+        except:
+            self.con.rollback()
+            return []
 
 
     # Add a new user to the database
     def add_usr(self, username, password, repassword):
-        # Execute a SELECT query to check if the username already exists
-        self.cur.execute('SELECT * FROM Administrators WHERE username=?', (username,))
-        row = self.cur.fetchone()
-        if row is not None:
-            return False
-        else:
-            # Check if the password and re-password match
-            if password != repassword:
+        try:
+            # Execute a SELECT query to check if the username already exists
+            self.cur.execute('SELECT * FROM Administrators WHERE username=?', (username,))
+            row = self.cur.fetchone()
+            if row is not None:
                 return False
             else:
-                # Hash the password using the SHA-256 algorithm
-                hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-                # Execute an INSERT query to add the new user to the database
-                self.cur.execute('INSERT INTO Administrators VALUES (?, ?)', (username, hashed_password))
-                self.con.commit()
-                return True
+                # Check if the password and re-password match
+                if password != repassword:
+                    return False
+                else:
+                    # Hash the password using the SHA-256 algorithm
+                    hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+                    # Execute an INSERT query to add the new user to the database
+                    self.cur.execute('INSERT INTO Administrators VALUES (?, ?)', (username, hashed_password))
+                    self.con.commit()
+                    return True
+        except:
+            self.con.rollback()
+            return False
 
     # Delete a user from the database
     def delete_usr(self, username):
@@ -116,10 +141,14 @@ class Authentication:
         if count < 2:
             return False
         else:
-            # Execute a DELETE query to delete the user from the database
-            self.cur.execute('DELETE FROM Administrators WHERE username=?', (username,))
-            self.con.commit()
-            return True
+            try:
+                # Execute a DELETE query to delete the user from the database
+                self.cur.execute('DELETE FROM Administrators WHERE username=?', (username,))
+                self.con.commit()
+                return True
+            except:
+                self.con.rollback()
+                return False
         
     def isPasswordValid(self, password):
         """Checks if the given password can be used to create a new admin"""
