@@ -99,6 +99,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.consoleWidget.println("Student ID already exists")
             print("Student ID already exists")
             self.ui.studentID_add_lineEdit.clear()
+            return
 
 
         # Add the student to the database
