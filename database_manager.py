@@ -108,11 +108,11 @@ class DatabaseManager:
                 # Commit the changes
                 self.con.commit()
                 self.console.println(f"Student {student_id} deleted successfully.")
-                return f"Student {student_id} deleted successfully."
+                return True
             except Exception:
-                raise Exception(f"Failed to delete student {student_id}.")
+                return False
         else:
-            raise Exception(f"No student found with ID {student_id}.")
+            return False
 
         
 

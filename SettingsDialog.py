@@ -96,7 +96,7 @@ class SettingsDialog(QDialog):
         username = self.ui.username_del_lineEdit.text()
         password = self.ui.password_del_lineEdit.text()
 
-        if username == "" or password == "": return
+        if username.isspace() or password.isspace(): return
 
         if self.authenticationManager.check_usr(username, password):
             self.authenticationManager.delete_usr(username)

@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMenu, QMenuBar, QTableWidget
+from PyQt5.QtWidgets import QMenu, QMessageBox, QTableWidget
 from PyQt5.QtGui import QIcon
 
 from Ui_MainWindow import Ui_MainWindow
@@ -19,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()  # initalize QMainWindow Base Class
         self.setup_ui()
-        
+
         self.database_manager = DatabaseManager()
 
         self.crudTabs = self.ui.CRUDTabWidget
@@ -115,20 +115,21 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_click_deleteStudent_btn(self):
         id = self.ui.studentID_delete_lineEdit.text()
 
-        if id == '':
-            QtWidgets.QMessageBox.warning(self, 'Warning', 'Please enter Student ID!')
+        if id.isspace():
+            QMessageBox.warning(self, 'Warning', 'Please enter Student ID!')
             return
         
-        # Delete the student to the database
-        try:
+        if self.database_manager.doesStudentIdExist(id):
             self.database_manager.delete_student(id)
-        except Exception as e:
-            self.consoleWidget.println(str(e))
-            print(e)
-            self.ui.studentID_add_lineEdit.clear()
+
+            self.consoleWidget.println(f"Student {id} deleted successfully.")
+            QMessageBox.information(self, 'Success', f"Student {id} deleted successfully.")
+        else:
+            self.consoleWidget.println(f"Failed to delete student {id}.")
+            QMessageBox.warning(self, 'Error', f"Failed to delete student {id}.")
 
         # Clear the form fields
-        self.ui.studentID_add_lineEdit.clear()
+        self.ui.studentID_delete_lineEdit.clear()
 
         # Refresh the student table
         self.refresh_student_table()
