@@ -103,7 +103,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Add the student to the database
         self.database_manager.add_student(data)
-        print("add clicked:  ", data)
+        self.consoleWidget.println("Student Added")
+        #print("add clicked:  ", data)
 
         # Clearn form
         self.clearForm()

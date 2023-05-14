@@ -73,6 +73,8 @@ class StudentTableWidget(QTableWidget):
         else:
             print(f"Failed to update {column_name} for student {row}.") 
 
+        self.load_students()
+
 
 
         # # Retrieve the new cell value and update the corresponding record in the database

@@ -1,34 +1,40 @@
 import sqlite3
 from console_widget import ConsoleWidget
 class DatabaseManager:
+
+    __instance = None
     
-    def __init__(self):
-        # Connect to the database
-        self.con = sqlite3.connect('students.db')
-        self.c = self.con.cursor()
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            # Connect to the database
+            cls.__instance.con = sqlite3.connect('students.db')
+            cls.__instance.c = cls.__instance.con.cursor()
 
-        # Check if the students table already exists
-        self.c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='students'")
-        table_exists = self.c.fetchone()
+            # Check if the students table already exists
+            cls.__instance.c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='students'")
+            table_exists = cls.__instance.c.fetchone()
 
-        if not table_exists:
-            # If the students table does not exist, create it
-            self.c.execute('''
-                CREATE TABLE students (
-                    id TEXT PRIMARY KEY,
-                    firstName TEXT,
-                    lastName TEXT,
-                    phoneNumber TEXT,
-                    email TEXT,
-                    department TEXT,
-                    Major TEXT,
-                    gpa TEXT,
-                    birthday TEXT
-                )
-            ''')
-            print("Students table created successfully.")
-        else:
-            print("Students table already exists.")
+            if not table_exists:
+                # If the students table does not exist, create it
+                cls.__instance.c.execute('''
+                    CREATE TABLE students (
+                        id TEXT PRIMARY KEY,
+                        firstName TEXT,
+                        lastName TEXT,
+                        phoneNumber TEXT,
+                        email TEXT,
+                        department TEXT,
+                        Major TEXT,
+                        gpa TEXT,
+                        birthday TEXT
+                    )
+                ''')
+                print("Students table created successfully.")
+            else:
+                print("Students table already exists.")
+
+        return cls.__instance
 
     def __del__(self):
         # Close the cursor and connection
@@ -53,6 +59,7 @@ class DatabaseManager:
             self.con.commit()
             return "Student added successfully."
         except sqlite3.IntegrityError:
+            self.con.rollback()
             return "The user already exists"
         
         display_students()
@@ -69,6 +76,7 @@ class DatabaseManager:
             self.con.commit()
             return f"{column.capitalize()} for student {row} updated successfully."
         except:
+            self.con.rollback()
             return f"Failed to update {column} for student {row}."
         
     def update_student_field(self, row, col, new_value, student_id):
@@ -87,6 +95,7 @@ class DatabaseManager:
             self.con.commit()
             return f"{field_name.capitalize()} for student {student_id} updated successfully."
         except Exception as e:
+            self.con.rollback()
             return f"Failed to update {field_name} for student {student_id}: {str(e)}"
 
 
@@ -94,16 +103,19 @@ class DatabaseManager:
         # Establish a connection to the database
 
         # Delete the student from the 'students' table based on the provided student_id
-        self.c.execute("DELETE FROM students WHERE id=?", (student_id,))
+        try:
+            self.c.execute("DELETE FROM students WHERE id=?", (student_id,))
 
-        # Check if any row was affected (i.e., deletion was successful)
-        if self.c.rowcount > 0:
-            self.con.commit()
-            self.con.close()
-            return True
-        else:
+            # Check if any row was affected (i.e., deletion was successful)
+            if self.c.rowcount > 0:
+                self.con.commit()
+                return True
+            else:
+                self.con.rollback()
+                return False
+            
+        except Exception:
             self.con.rollback()
-            self.con.close()
             return False
 
         
