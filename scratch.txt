@@ -1,0 +1,39 @@
+"""
+
+#file name (authentication)
+
+#takes username and password as paramaters
+#returns true if valid 
+#returns false if invalid
+def check_usr(username,password)
+    does username exist 
+        if false return False
+        else 
+            is password correct
+                if false return False
+                else return true
+
+
+#takes username password, and repassword as paramaters
+#returns true if succesfully added 
+#returns false if couldnt add (usr already exist or re password doesnt match)
+def add_usr(username,password,repassword)
+    does username already exist 
+        if true return False
+        else 
+            does password == repassword
+                if false return False
+                else store new username and return True
+            
+
+#takes username (can only use function when signed in)
+#returns true if deleted 
+#returns false if error (username doesnt exist or only one usr remaining )
+def delete_usr(username)
+    is there atleast 2 usernames
+        if true
+            does username already exist 
+                if true delete user &return true
+                else return False
+        else return false
+            """
