@@ -23,10 +23,10 @@ class Authentication:
             self.cur.execute('INSERT INTO Administrators VALUES (?, ?)', ('admin', hashed_password))
             self.con.commit()
 
-    def __del__(self):
-        # Close the cursor and connection
-        self.con.close()
-        self.cur.close()
+    # def __del__(self):
+    #     # Close the cursor and connection
+    #     self.con.close()
+    #     self.cur.close()
 
     def closeWindow(self):
         self.close()

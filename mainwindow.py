@@ -18,9 +18,16 @@ settingIconPath = os.path.join(current_dir, 'assets', 'settingsIcon.png')
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()  # initalize QMainWindow Base Class
-        self.setup_ui()        
-
+        self.setup_ui()
+        
         self.database_manager = DatabaseManager()
+
+        self.crudTabs = self.ui.CRUDTabWidget
+        self.updateModeCheckBox = self.ui.updateMode_checkbox
+
+            
+
+        
 
         
     def __del__(self):
@@ -40,6 +47,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.deleteStudent_btn.clicked.connect(self.on_click_deleteStudent_btn)
         self.ui.refresh_btn.clicked.connect(self.refresh_student_table)
         self.ui.settings_btn.clicked.connect(self.open_settings_dialog)
+        #self.ui.CRUDTabWidget.currentChanged.connect(self.toggleUpdateMode)
 
         # Set up console window
         self.consoleWidget = ConsoleWidget(self)
@@ -164,4 +172,5 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.birthday_lineEdit.clear()
 
 
-
+    def toggleUpdateMode(self):
+        self.updateModeCheckBox.toggle()

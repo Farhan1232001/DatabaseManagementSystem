@@ -60,20 +60,32 @@ class SettingsDialog(QDialog):
 
         if username == "" or password == "": return
 
-        if not self.authenticationManager.check_password(password) and not self.authenticationManager.check_username(username):
-            if self.authenticationManager.isPasswordValid(password):
-                if self.authenticationManager.add_usr(username, password, password):
+        if self.authenticationManager.check_username(username):
+            QMessageBox.warning(self, "Error", "Username already in use.")
+            print("Username already in use.")
+        else:
+            if self.authenticationManager.add_usr(username, password, password):
                     QMessageBox.information(self, "Admin Added", "Administrator added successfully.")
                     print("Admin added")
-                else:
-                    QMessageBox.warning(self, "Error", "Failed to add administrator. Username or password already in use.")
-                    print("Username/password already in use")
             else:
-                QMessageBox.warning(self, "Error", "Failed to add administrator. Username or password already in use.")
-                print("Password already in use")
-        else:
-            QMessageBox.warning(self, "Error", "Failed to add administrator. Username and password already in use.")
-            print("Username/password already in use")
+                QMessageBox.warning(self, "Error", "Failed to add administrator. Username already in use.")
+                print("Username already in use")
+
+
+        # if not self.authenticationManager.check_password(password) and not self.authenticationManager.check_username(username):
+        #     if self.authenticationManager.isPasswordValid(password):
+        #         if self.authenticationManager.add_usr(username, password, password):
+        #             QMessageBox.information(self, "Admin Added", "Administrator added successfully.")
+        #             print("Admin added")
+        #         else:
+        #             QMessageBox.warning(self, "Error", "Failed to add administrator. Username or password already in use.")
+        #             print("Username/password already in use")
+        #     else:
+        #         QMessageBox.warning(self, "Error", "Failed to add administrator. Username or password already in use.")
+        #         print("Password already in use")
+        # else:
+        #     QMessageBox.warning(self, "Error", "Failed to add administrator. Username and password already in use.")
+        #     print("Username/password already in use")
 
         self.ui.username_lineEdit.clear()
         self.ui.password_lineEdit.clear()
