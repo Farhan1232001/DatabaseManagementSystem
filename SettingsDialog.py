@@ -28,14 +28,15 @@ class SettingsDialog(QDialog):
         # Set attributes of the dialog
         self.setWindowTitle("Settings")
 
-        self.adminTable = self.authenticationManager.getAdminTable()
         self.loadAdminTable()
-        
+
         # Set the table widget to read-only mode
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
     def loadAdminTable(self):
         self.tableWidget.clearContents()
+        self.adminTable = self.authenticationManager.getAdminTable()
+
         # Set the number of rows and columns in the table widget
         num_rows = len(self.adminTable)
         num_cols = len(self.adminTable[0])
