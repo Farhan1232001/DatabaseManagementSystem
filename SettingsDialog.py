@@ -7,6 +7,8 @@ class SettingsDialog(QDialog):
         super(SettingsDialog, self).__init__(parent)
         self.setup_ui()
 
+        self.parent = parent
+
         authenticationManager = Authentication()
 
     def setup_ui(self):
@@ -16,5 +18,15 @@ class SettingsDialog(QDialog):
 
         # Set attributes of the dialog
         self.setWindowTitle("Settings")
+
+    def addAdministrator(self):
+        # Check inputs
+        username = self.ui.username_lineEdit
+        password = self.ui.password_lineEdit
+
+        if self.authenticationManager.check_usr(username, password):
+            pass
+
+
 
         

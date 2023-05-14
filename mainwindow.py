@@ -39,10 +39,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.deleteStudent_btn.clicked.connect(self.on_click_deleteStudent_btn)
         self.ui.refresh_btn.clicked.connect(self.refresh_student_table)
         self.ui.settings_btn.clicked.connect(self.open_settings_dialog)
-        
-        # Add comboboxes with data
-        # ----------------------------------------------------------------
-
 
         # Set up console window
         self.consoleWidget = ConsoleWidget(self)
@@ -59,12 +55,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def open_settings_dialog(self):
-        s = SettingsDialog()
+        s = SettingsDialog(self)
         s.exec_()
         
 
         
-
     def on_click_addStudent_btn(self):
         # Check if all form fields are filled out
         firstName = self.ui.firstName_lineEdit.text()

@@ -2,6 +2,7 @@ from mainwindow import MainWindow
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtGui import QIcon
 from AuthenticationWindow import AuthenticationWindow
+from SettingsDialog import SettingsDialog
 import os, sys
 
 # Set paths to Assets
@@ -19,6 +20,7 @@ def main():
     # Create all widgets that'll be used in app
     authentication_window = AuthenticationWindow()
     main_window = MainWindow()
+    settings = SettingsDialog()
 
     # Connect the login_successful signal to the show_main_window slot
     authentication_window.login_successful.connect(main_window.show_main_window)
@@ -26,7 +28,7 @@ def main():
     # Show 1st widget of app
     #authentication_window.show()
 
-    main_window.show()  # for debuging purposes
+    settings.show()  # for debuging purposes
 
     sys.exit(app.exec())
 

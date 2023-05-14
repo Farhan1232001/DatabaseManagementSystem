@@ -62,6 +62,7 @@ class Authentication:
 
     # Check if a user is valid
     def check_usr(self, username, password):
+        """Returns true if valid"""
         # Execute a SELECT query to check if the username exists
         self.cur.execute('SELECT * FROM authentication WHERE username=?', (username,))
         row = self.cur.fetchone()
