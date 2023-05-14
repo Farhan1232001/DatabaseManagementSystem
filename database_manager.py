@@ -92,20 +92,18 @@ class DatabaseManager:
 
     def delete_student(self, student_id):
         # Establish a connection to the database
-        conn = sqlite3.connect('your_database_name.db')
-        cursor = conn.cursor()
 
         # Delete the student from the 'students' table based on the provided student_id
-        cursor.execute("DELETE FROM students WHERE student_id=?", (student_id,))
+        self.c.execute("DELETE FROM students WHERE id=?", (student_id,))
 
         # Check if any row was affected (i.e., deletion was successful)
-        if cursor.rowcount > 0:
-            conn.commit()
-            conn.close()
+        if self.c.rowcount > 0:
+            self.con.commit()
+            self.con.close()
             return True
         else:
-            conn.rollback()
-            conn.close()
+            self.con.rollback()
+            self.con.close()
             return False
 
         
