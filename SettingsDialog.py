@@ -28,24 +28,24 @@ class SettingsDialog(QDialog):
         # Set attributes of the dialog
         self.setWindowTitle("Settings")
 
-        self.fillInAdminTable()
+        self.adminTable = self.authenticationManager.getAdminTable()
+        self.loadAdminTable()
         
         # Set the table widget to read-only mode
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
-    def fillInAdminTable(self):
-        table = self.authenticationManager.getAdminTable()
-
+    def loadAdminTable(self):
+        self.tableWidget.clearContents()
         # Set the number of rows and columns in the table widget
-        num_rows = len(table)
-        num_cols = len(table[0])
+        num_rows = len(self.adminTable)
+        num_cols = len(self.adminTable[0])
         self.tableWidget.setRowCount(num_rows)
         self.tableWidget.setColumnCount(num_cols)
 
         # Iterate over the table data and insert it into the table widget
         for row in range(num_rows):
             for col in range(num_cols):
-                item = QTableWidgetItem(str(table[row][col]))
+                item = QTableWidgetItem(str(self.adminTable[row][col]))
                 self.tableWidget.setItem(row, col, item)
 
         # Resize columns and rows to fit the contents
@@ -77,6 +77,7 @@ class SettingsDialog(QDialog):
 
         self.ui.username_lineEdit.clear()
         self.ui.password_lineEdit.clear()
+        self.loadAdminTable()
 
     def deleteAdministrator(self):
         # Check inputs
@@ -87,27 +88,15 @@ class SettingsDialog(QDialog):
 
         if self.authenticationManager.check_usr(username, password):
             self.authenticationManager.delete_usr(username)
-            QMessageBox.warning(self, "Administrator removed from Admin Table")
+            QMessageBox.warning(self, "Admin Removed", "Administrator removed from Admin Table")
             print("Administrator removed from Admin Table")
+            self.loadAdminTable()
         else:
             QMessageBox.warning(self, "Admin login/password incorrect.")
             print("Admin login/password incorrect.")
 
         self.ui.username_del_lineEdit.clear()
         self.ui.password_del_lineEdit.clear()
-
-
-
-        # if self.authenticationManager.check_usr(username, password):
-        #     print("Admin cannot be added b/c username&password taken")
-        # else:
-        #     # add admin
-        #     if not self.authenticationManager.check_password(password):
-                
-        #     else:
-        #         print("Password already in use")
-            
-
 
 
         

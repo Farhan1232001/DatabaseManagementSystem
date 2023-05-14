@@ -111,7 +111,12 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         
         # Delete the student to the database
-        self.database_manager.delete_student(id)
+        try:
+            self.database_manager.delete_student(id)
+        except Exception as e:
+            self.consoleWidget.println(str(e))
+            print(e)
+            self.ui.studentID_add_lineEdit.clear()
 
         # Clear the form fields
         self.ui.studentID_add_lineEdit.clear()

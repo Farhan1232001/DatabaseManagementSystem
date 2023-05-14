@@ -32,8 +32,12 @@ class AuthenticationWindow(QtWidgets.QWidget):
             print("Login successful")
             self.login_successful.emit()     # Emit the signal for successful login
             self.__isAuthenticated = True
+            self.close()
         else:
             QMessageBox.warning(self, 'Authentication Failed', 'Invalid username or password.')
+
+        self.ui.username_lineEdit.clear()
+        self.ui.password_lineEdit.clear()
 
     def isAuthenticated(self):
         return self.__isAuthenticated

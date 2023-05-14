@@ -19,6 +19,7 @@ class Ui_SettingsWindow(object):
         SettingsWindow.setMaximumSize(QtCore.QSize(874, 348))
         self.adminInfo_tableWidget = QtWidgets.QTableWidget(SettingsWindow)
         self.adminInfo_tableWidget.setGeometry(QtCore.QRect(10, 30, 511, 261))
+        self.adminInfo_tableWidget.setGridStyle(QtCore.Qt.DashLine)
         self.adminInfo_tableWidget.setObjectName("adminInfo_tableWidget")
         self.adminInfo_tableWidget.setColumnCount(2)
         self.adminInfo_tableWidget.setRowCount(0)

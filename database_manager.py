@@ -89,14 +89,14 @@ class DatabaseManager:
 
     def delete_student(self, student_id):
         # Build the SQL query to find the row containing the student_id
-        query = "SELECT row FROM students WHERE row = ?"
+        query = "SELECT id FROM students WHERE id = ?"
         self.c.execute(query, (student_id,))
         row = self.c.fetchone()
 
         # If the row containing the student_id exists, delete the whole row
         if row:
             # Build the SQL query to delete the row
-            query = "DELETE FROM students WHERE row = ?"
+            query = "DELETE FROM students WHERE id = ?"
 
             try:
                 # Execute the SQL query with the given data
@@ -106,46 +106,12 @@ class DatabaseManager:
                 self.con.commit()
                 self.console.println(f"Student {student_id} deleted successfully.")
                 return f"Student {student_id} deleted successfully."
-            except:
-                self.console.println(f"Failed to delete student {student_id}.")
-                return f"Failed to delete student {student_id}."
+            except Exception:
+                raise Exception(f"Failed to delete student {student_id}.")
         else:
-            return f"No student found with ID {student_id}."
+            raise Exception(f"No student found with ID {student_id}.")
+
         
-
-    """
-    def delete_student(self, student_id):
-        # Connect to the database
-        con = sqlite3.connect('test.db')
-        c = con.cursor()
-
-        # Build the SQL query to find the row containing the student_id
-        query = "SELECT row FROM students WHERE row = ?"
-        c.execute(query, (student_id,))
-        row = c.fetchone()
-
-        # If the row containing the student_id exists, delete the whole row
-        if row:
-            # Build the SQL query to delete the row
-            query = "DELETE FROM students WHERE row = ?"
-
-            try:
-                # Execute the SQL query with the given data
-                c.execute(query, (student_id,))
-
-                # Commit the changes and close the database connection
-                con.commit()
-                con.close()
-                return f"Student {student_id} deleted successfully."
-            except:
-                # Close the database connection
-                con.close()
-                return f"Failed to delete student {student_id}."
-        else:
-            # Close the database connection
-            con.close()
-            return f"No student found with ID {student_id}."
-    """
 
     def getStudentFields(self):
         """Return columns of 'students' Table"""
@@ -171,11 +137,11 @@ class DatabaseManager:
 
     def get_all_students(self):
         """Retrieves all entries in students table."""
-        c = self.c
+        self.c
 
         # Retrieve all rows from the specified table
-        c.execute(f"SELECT * FROM students")
-        rows = c.fetchall()
+        self.c.execute(f"SELECT * FROM students")
+        rows = self.c.fetchall()
 
         # Combine the column names and rows into a list of lists
         result = [] + list(rows)
