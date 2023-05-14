@@ -24,6 +24,13 @@ class StudentTableWidget(QTableWidget):
 
         self.setup_ui()
         
+    def set_item_changed_connection(self, con):
+        """if con true, sig/slot connect. Otherwise disconnected"""
+        if con:
+            self.tableWidget.itemChanged.connect(self.on_item_changed)
+        else:
+            self.tableWidget.itemChanged.disconnect(self.on_item_changed)
+
 
 
     def setup_ui(self):
@@ -41,6 +48,10 @@ class StudentTableWidget(QTableWidget):
 
     def load_students(self):
         # Retrieve the list of students from the database and populate the table widget
+
+        # Temporary turn of item changed sig/slot
+        self.set_item_changed_connection(False)
+
         self.tableWidget.clearContents()
         students = self.database_manager.get_all_students()
 
@@ -50,15 +61,14 @@ class StudentTableWidget(QTableWidget):
                 item = QTableWidgetItem(str(value))
                 self.tableWidget.setItem(row, col, item)
 
+        self.set_item_changed_connection(True)
+
     def on_item_changed(self, item):
-        if self.isInUpdateMode == False:
-            return
+        if self.isInUpdateMode == False: return
+        if item is None: return
 
-        if item is None:
-            return
-
-        # Disconnect the itemChanged signal temporarily (so that on_item_changed isnt called recursively)
-        self.tableWidget.itemChanged.disconnect(self.on_item_changed)
+        # # Disconnect the itemChanged signal temporarily (so that on_item_changed isnt called recursively)
+        # self.tableWidget.itemChanged.disconnect(self.on_item_changed)
 
         row = item.row()
         column = item.column()
@@ -67,9 +77,13 @@ class StudentTableWidget(QTableWidget):
         student_id = self.tableWidget.item(row, 0).text()
         column_name = self.tableWidget.horizontalHeaderItem(column).text()
 
+        print(item.text())
+        print(new_value)
+
         if column_name == self.field_names[0]:
             self.console.println("UPDATING ID NOT ALLOWED")
             print("cannot update id...")
+            self.load_students()
             return
 
         # Update the record in the database
@@ -82,8 +96,8 @@ class StudentTableWidget(QTableWidget):
 
         self.load_students()
 
-        # Reconnect the itemChanged signal
-        self.tableWidget.itemChanged.connect(self.on_item_changed)
+        # # Reconnect the itemChanged signal
+        # self.tableWidget.itemChanged.connect(self.on_item_changed)
 
 
 
