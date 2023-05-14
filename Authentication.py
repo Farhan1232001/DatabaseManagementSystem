@@ -22,11 +22,15 @@ class Authentication:
             hashed_password = hashlib.sha256('password'.encode('utf-8')).hexdigest()
             self.cur.execute('INSERT INTO Administrators VALUES (?, ?)', ('admin', hashed_password))
             self.con.commit()
-            
+
     def __del__(self):
         # Close the cursor and connection
         self.con.close()
         self.cur.close()
+
+    def closeWindow(self):
+        self.close()
+        del self
 
     # Check if a user is valid
     def check_usr(self, username, password):

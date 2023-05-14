@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox
 from Ui_AuthenticationWindow import Ui_AuthenticationWindow
+from Authentication import Authentication
 
 class AuthenticationWindow(QtWidgets.QWidget):
     login_successful = QtCore.pyqtSignal()  # Signal to indicate successful login
@@ -12,12 +13,20 @@ class AuthenticationWindow(QtWidgets.QWidget):
         # Set up the user interface from the generated UI file
         self.ui = Ui_AuthenticationWindow()
         self.ui.setupUi(self)   # sets up ui using Ui_AuthenticationWindow class
+        self.auth = Authentication()
 
         # Set ui for the widget (your custum us)
         self.setupui()
         
         # Connect signals and slots
         self.ui.login_btn.clicked.connect(self.on_login_button_clicked)
+
+    def __del__(self):
+        del self.auth
+
+    def closeWindow(self):
+        self.close()
+        self.__del__()
 
     def setupui(self):
         self.setWindowTitle("Authentication")
@@ -28,11 +37,11 @@ class AuthenticationWindow(QtWidgets.QWidget):
         password = self.ui.password_lineEdit.text()
 
         # Perform login authentication logic here
-        if username == 'admin' and password == 'password':
+        if self.auth.check_usr(username, password):
             print("Login successful")
             self.login_successful.emit()     # Emit the signal for successful login
             self.__isAuthenticated = True
-            self.close()
+            self.closeWindow()
         else:
             QMessageBox.warning(self, 'Authentication Failed', 'Invalid username or password.')
 

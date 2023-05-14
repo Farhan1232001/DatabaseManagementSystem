@@ -26,9 +26,9 @@ def main():
     authentication_window.login_successful.connect(main_window.show_main_window)
 
     # Show 1st widget of app
-    #authentication_window.show()
+    authentication_window.show()
 
-    main_window.show()  # for debuging purposes
+    #main_window.show()  # for debuging purposes
 
     sys.exit(app.exec())
 

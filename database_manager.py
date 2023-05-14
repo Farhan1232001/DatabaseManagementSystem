@@ -35,6 +35,9 @@ class DatabaseManager:
         self.c.close()
         self.con.close()
 
+    def close(self):
+        del self
+
 
     def add_student(self, data):
         # Build the SQL query
@@ -169,4 +172,5 @@ class DatabaseManager:
         else:
             return False  # Student does not exist
         
+    # == Methods dealing with Adminstors table =================================
     
