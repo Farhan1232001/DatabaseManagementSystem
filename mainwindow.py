@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QComboBox, QCompleter, QTableWidget
+from PyQt5.QtWidgets import QMenu, QMenuBar, QAction
 from PyQt5.QtGui import QIcon
 
 from Ui_MainWindow import Ui_MainWindow
@@ -7,12 +7,13 @@ from Ui_MainWindow import Ui_MainWindow
 from student_table_widget import StudentTableWidget
 from database_manager import DatabaseManager
 from console_widget import ConsoleWidget
+from SettingsDialog import SettingsDialog
 import os
 
 # Set paths to Assets
 current_dir = os.path.dirname(os.path.abspath(__file__))
 icon_path = os.path.join(current_dir, 'assets', 'refreshIcon.png')
-
+settingIconPath = os.path.join(current_dir, 'assets', 'settingsIcon.png')
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -20,7 +21,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_ui()        
 
         self.database_manager = DatabaseManager()
-          
+
+        
+
 
     def setup_ui(self):
         # Set up the main window layout and widgets using Qt Designer
@@ -34,13 +37,12 @@ class MainWindow(QtWidgets.QMainWindow):
         # ----------------------------------------------------------------
         self.ui.addStudent_btn.clicked.connect(self.on_click_addStudent_btn)
         self.ui.deleteStudent_btn.clicked.connect(self.on_click_deleteStudent_btn)
-        # self.ui.actionLogout.triggered.connect(self.show_login_dialog)
-        # self.ui.actionAdd_Student.triggered.connect(self.show_add_student_dialog)
-        # self.ui.actionEdit_Student.triggered.connect(self.show_edit_student_dialog)
         self.ui.refresh_btn.clicked.connect(self.refresh_student_table)
+        self.ui.settings_btn.clicked.connect(self.open_settings_dialog)
         
         # Add comboboxes with data
         # ----------------------------------------------------------------
+
 
         # Set up console window
         self.consoleWidget = ConsoleWidget(self)
@@ -48,9 +50,19 @@ class MainWindow(QtWidgets.QMainWindow):
         # Set up table
         self.student_table_widget = StudentTableWidget(self)
 
-        # Set up utility buttons
+        # Set up Buttons
         refreshBtn = self.ui.refresh_btn
         refreshBtn.setIcon(QIcon.fromTheme(icon_path))
+        
+        settingsBtn = self.ui.settings_btn
+        settingsBtn.setIcon(QIcon.fromTheme(settingIconPath))
+
+
+    def open_settings_dialog(self):
+        s = SettingsDialog()
+        s.exec_()
+        
+
         
 
     def on_click_addStudent_btn(self):
@@ -133,7 +145,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def show_main_window(self):
         self.show()
 
-
     def clearForm(self):
         # Clear the form fields
         self.ui.firstName_lineEdit.clear()
@@ -145,3 +156,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.major_lineEdit.clear()
         self.ui.gpa_spinBox.clear()
         self.ui.birthday_lineEdit.clear()
+
+
+

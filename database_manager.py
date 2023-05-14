@@ -4,7 +4,7 @@ class DatabaseManager:
     
     def __init__(self):
         # Connect to the database
-        self.con = sqlite3.connect('test.db')
+        self.con = sqlite3.connect('students.db')
         self.c = self.con.cursor()
 
         # Check if the students table already exists
@@ -202,3 +202,5 @@ class DatabaseManager:
             return True  # Student exists
         else:
             return False  # Student does not exist
+        
+    
