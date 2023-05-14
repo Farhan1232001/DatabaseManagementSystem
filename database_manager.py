@@ -91,27 +91,21 @@ class DatabaseManager:
 
 
     def delete_student(self, student_id):
-        # Build the SQL query to find the row containing the student_id
-        query = "SELECT id FROM students WHERE id = ?"
-        self.c.execute(query, (student_id,))
-        row = self.c.fetchone()
+        # Establish a connection to the database
+        conn = sqlite3.connect('your_database_name.db')
+        cursor = conn.cursor()
 
-        # If the row containing the student_id exists, delete the whole row
-        if row:
-            # Build the SQL query to delete the row
-            query = "DELETE FROM students WHERE id = ?"
+        # Delete the student from the 'students' table based on the provided student_id
+        cursor.execute("DELETE FROM students WHERE student_id=?", (student_id,))
 
-            try:
-                # Execute the SQL query with the given data
-                self.c.execute(query, (student_id,))
-
-                # Commit the changes
-                self.con.commit()
-                self.console.println(f"Student {student_id} deleted successfully.")
-                return True
-            except Exception:
-                return False
+        # Check if any row was affected (i.e., deletion was successful)
+        if cursor.rowcount > 0:
+            conn.commit()
+            conn.close()
+            return True
         else:
+            conn.rollback()
+            conn.close()
             return False
 
         
