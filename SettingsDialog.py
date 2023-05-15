@@ -99,15 +99,15 @@ class SettingsDialog(QDialog):
 
         if username.isspace() or password.isspace(): return
 
-        if self.authenticationManager.check_usr(username, password):
-            self.authenticationManager.delete_usr(username)
-            QMessageBox.warning(self, "Admin Removed", "Administrator removed from Admin Table")
-            print("Administrator removed from Admin Table")
-            self.loadAdminTable()
-        else:
-            QMessageBox.warning(self, "Credientials Invalid", "Admin login/password incorrect.")
-            print("Admin login/password incorrect.")
-
+        try:
+            if self.authenticationManager.check_usr(username, password):
+                self.authenticationManager.delete_usr(username)
+                QMessageBox.warning(self, "Admin Removed", "Administrator removed from Admin Table")
+                print("Administrator removed from Admin Table")
+                self.loadAdminTable()
+        except TypeError:
+                QMessageBox.warning(self, "Admin login/password incorrect.")
+                print("Admin login/password incorrect.")
         self.ui.username_del_lineEdit.clear()
         self.ui.password_del_lineEdit.clear()
 
