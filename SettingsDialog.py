@@ -102,11 +102,15 @@ class SettingsDialog(QDialog):
         try:
             if self.authenticationManager.check_usr(username, password):
                 self.authenticationManager.delete_usr(username)
-                QMessageBox.warning(self, "Admin Removed", "Administrator removed from Admin Table")
+                QMessageBox.information(self, "Admin Removed", "Administrator removed from Admin Table")
                 print("Administrator removed from Admin Table")
                 self.loadAdminTable()
+            else:
+                QMessageBox.information(self, "Admin not Found", "Administrator not found")
+                print("Administrator not found")
+                self.loadAdminTable()
         except TypeError:
-                QMessageBox.warning(self, "Admin login/password incorrect.")
+                QMessageBox.information(self, "Admin login/password incorrect.")
                 print("Admin login/password incorrect.")
         self.ui.username_del_lineEdit.clear()
         self.ui.password_del_lineEdit.clear()

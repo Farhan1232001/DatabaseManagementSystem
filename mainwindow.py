@@ -25,7 +25,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.crudTabs = self.ui.CRUDTabWidget
         self.updateModeCheckBox = self.ui.updateMode_checkbox
 
-            
+        self.setTabOrders()
 
         
 
@@ -72,7 +72,15 @@ class MainWindow(QtWidgets.QMainWindow):
         s = SettingsDialog(self)
         s.exec_()
         
-
+    def setTabOrders(self):
+        self.setTabOrder(self.ui.firstName_lineEdit, self.ui.lastName_lineEdit)
+        self.setTabOrder(self.ui.lastName_lineEdit, self.ui.studentID_add_lineEdit)
+        self.setTabOrder(self.ui.studentID_add_lineEdit, self.ui.phoneNum_lineEdit)
+        self.setTabOrder(self.ui.phoneNum_lineEdit, self.ui.email_lineEdit)
+        self.setTabOrder(self.ui.email_lineEdit, self.ui.department_lineEdit)
+        self.setTabOrder(self.ui.department_lineEdit, self.ui.birthday_lineEdit)
+        self.setTabOrder(self.ui.birthday_lineEdit, self.ui.major_lineEdit)
+        self.setTabOrder(self.ui.major_lineEdit, self.ui.gpa_spinBox)
         
     def on_click_addStudent_btn(self):
         # Check if all form fields are filled out
@@ -91,7 +99,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         if firstName == '' or lastName == '' or id == '' or phoneNum == '' or email == '' or department == '' or major == '' or gpa == '':
-            QtWidgets.QMessageBox.warning(self, 'Warning', 'Please fill out all fields!')
+            QtWidgets.QMessageBox.information(self, 'Info', 'Please fill out all fields!')
             self.consoleWidget.println('FAILED to add Entry: Please fill out all fields!')
             return
         
@@ -118,17 +126,17 @@ class MainWindow(QtWidgets.QMainWindow):
         id = self.ui.studentID_delete_lineEdit.text()
 
         if id.isspace():
-            QMessageBox.warning(self, 'Warning', 'Please enter Student ID!')
+            QMessageBox.information(self, 'Warning', 'Please enter Student ID!')
             return
         
         if self.database_manager.doesStudentIdExist(id):
             self.database_manager.delete_student(id)
 
             self.consoleWidget.println(f"Student {id} deleted successfully.")
-            QMessageBox.information(self, 'Success', f"Student {id} deleted successfully.")
+            #QMessageBox.information(self, 'Success', f"Student {id} deleted successfully.")
         else:
             self.consoleWidget.println(f"Failed to delete student {id}.")
-            QMessageBox.warning(self, 'Error', f"Failed to delete student {id}.")
+            #QMessageBox.information(self, 'Error', f"Failed to delete student {id}.")
 
         # Clear the form fields
         self.ui.studentID_delete_lineEdit.clear()

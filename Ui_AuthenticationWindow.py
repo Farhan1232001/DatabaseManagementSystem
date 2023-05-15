@@ -51,6 +51,7 @@ class Ui_AuthenticationWindow(object):
         self.password_lbl.setObjectName("password_lbl")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.password_lbl)
         self.password_lineEdit = QtWidgets.QLineEdit(self.layoutWidget)
+        self.password_lineEdit.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.password_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password_lineEdit.setObjectName("password_lineEdit")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.password_lineEdit)

@@ -90,28 +90,17 @@ class StudentTableWidget(QTableWidget):
         resultSuccess = self.database_manager.update_student_field(row, column, new_value, student_id)
 
         if resultSuccess:
-            print(resultSuccess)  
+            print(resultSuccess)
+            self.console.println("Update Successful")
         else:
-            print(f"Failed to update {column_name} for student {row}.") 
+            print(f"Failed to update {column_name} for student {row}.")
+            print(f"Failed to update {column_name} for student {row}.")
+            self.console.println(f"Failed to update {column_name} for student {row}.")
+
 
         self.load_students()
 
-        # # Reconnect the itemChanged signal
-        # self.tableWidget.itemChanged.connect(self.on_item_changed)
 
-
-
-
-        # # Retrieve the new cell value and update the corresponding record in the database
-        # item = self.tableWidget.item(row, column)
-        # new_value = item.text()
-        # row = item.row()
-        # col = item.column()
-        # student_id = self.tableWidget.item(row, 0).text()
-        # column_name = self.horizontalHeaderItem(col).text()
-
-        # # Update the record in the database
-        # self.database_manager.update_student(row, column, new_value)
 
     def toggleUpdateMode(self):
         if self.isInUpdateMode == True:

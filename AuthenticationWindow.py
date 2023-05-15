@@ -21,6 +21,10 @@ class AuthenticationWindow(QtWidgets.QWidget):
         # Connect signals and slots
         self.ui.login_btn.clicked.connect(self.on_login_button_clicked)
 
+        # Set the tab order (ie. focus order for when tab key is clicked)
+        self.setTabOrder(self.ui.username_lineEdit, self.ui.password_lineEdit)
+        self.setTabOrder(self.ui.password_lineEdit, self.ui.login_btn)
+
     def __del__(self):
         del self.auth
 
@@ -43,7 +47,7 @@ class AuthenticationWindow(QtWidgets.QWidget):
             self.__isAuthenticated = True
             self.closeWindow()
         else:
-            QMessageBox.warning(self, 'Authentication Failed', 'Invalid username or password.')
+            QMessageBox.information(self, 'Authentication Failed', 'Invalid username or password.')
 
         self.ui.username_lineEdit.clear()
         self.ui.password_lineEdit.clear()
