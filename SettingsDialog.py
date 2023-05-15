@@ -105,7 +105,7 @@ class SettingsDialog(QDialog):
             print("Administrator removed from Admin Table")
             self.loadAdminTable()
         else:
-            QMessageBox.warning(self, "Admin login/password incorrect.")
+            QMessageBox.warning(self, "Credientials Invalid", "Admin login/password incorrect.")
             print("Admin login/password incorrect.")
 
         self.ui.username_del_lineEdit.clear()
