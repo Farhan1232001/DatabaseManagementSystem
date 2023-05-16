@@ -4,6 +4,9 @@ import sqlite3
 import hashlib
 
 class Authentication:
+    """
+    Class used to Authenticate if User is Administrator.
+    """
     __instance = None
 
     def __new__(cls, db_file='students.db'):
@@ -112,6 +115,7 @@ class Authentication:
 
     # Add a new user to the database
     def add_usr(self, username, password, repassword):
+        """Method adds user to administrator table."""
         try:
             # Execute a SELECT query to check if the username already exists
             self.cur.execute('SELECT * FROM Administrators WHERE username=?', (username,))

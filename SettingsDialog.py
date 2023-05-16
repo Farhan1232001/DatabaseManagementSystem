@@ -4,6 +4,9 @@ from Authentication import Authentication
 
 
 class SettingsDialog(QDialog):
+    """
+    Class create settings window which is used to add/delete administrators. 
+    """
     def __init__(self, parent=None):
         super(SettingsDialog, self).__init__(parent)
         self.ui = Ui_SettingsWindow()

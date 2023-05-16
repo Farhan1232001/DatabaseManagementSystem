@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QVBoxLayout, QTextEdit
 import sys
 
 class ConsoleWidget(QTextEdit):
-    """Console is where output is generated."""
+    """Console is where output is generated to inform user."""
     def __init__(self, parent = None):
         super(ConsoleWidget, self).__init__()
 

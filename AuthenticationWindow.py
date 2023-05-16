@@ -4,6 +4,10 @@ from Ui_AuthenticationWindow import Ui_AuthenticationWindow
 from Authentication import Authentication
 
 class AuthenticationWindow(QtWidgets.QWidget):
+    """
+    Class cretes authentication window. Takes in username and password and verifies if user
+    is an administrator.
+    """
     login_successful = QtCore.pyqtSignal()  # Signal to indicate successful login
 
     def __init__(self):

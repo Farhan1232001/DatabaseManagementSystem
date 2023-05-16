@@ -27,11 +27,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setTabOrders()
 
-        
-
-        
-    def __del__(self):
-        self.database_manager.close()
 
     def setup_ui(self):
         # Set up the main window layout and widgets using Qt Designer

@@ -1,6 +1,11 @@
 import sqlite3
 from console_widget import ConsoleWidget
+
 class DatabaseManager:
+    """
+    This class communicates with the SQLite3 database.
+    Can add, update, and delete students table.
+    """
 
     __instance = None
     
