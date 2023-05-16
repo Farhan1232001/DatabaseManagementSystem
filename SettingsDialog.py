@@ -20,6 +20,7 @@ class SettingsDialog(QDialog):
         self.setup_ui()
 
     def setup_ui(self):
+        """Sets up ui for Settings Dialog"""
         self.tableWidget = self.ui.adminInfo_tableWidget
         
         
@@ -37,6 +38,7 @@ class SettingsDialog(QDialog):
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
     def loadAdminTable(self):
+        """Method loads admin table. It get admin table from database, then fills tableWidget."""
         self.tableWidget.clearContents()
         self.adminTable = self.authenticationManager.getAdminTable()
 
@@ -58,6 +60,7 @@ class SettingsDialog(QDialog):
 
 
     def addAdministrator(self):
+        """Method adds admin to administrator table."""
         # Check inputs
         username = self.ui.username_lineEdit.text()
         password = self.ui.password_lineEdit.text()
@@ -75,27 +78,12 @@ class SettingsDialog(QDialog):
                 QMessageBox.warning(self, "Error", "Failed to add administrator. Username already in use.")
                 print("Username already in use")
 
-
-        # if not self.authenticationManager.check_password(password) and not self.authenticationManager.check_username(username):
-        #     if self.authenticationManager.isPasswordValid(password):
-        #         if self.authenticationManager.add_usr(username, password, password):
-        #             QMessageBox.information(self, "Admin Added", "Administrator added successfully.")
-        #             print("Admin added")
-        #         else:
-        #             QMessageBox.warning(self, "Error", "Failed to add administrator. Username or password already in use.")
-        #             print("Username/password already in use")
-        #     else:
-        #         QMessageBox.warning(self, "Error", "Failed to add administrator. Username or password already in use.")
-        #         print("Password already in use")
-        # else:
-        #     QMessageBox.warning(self, "Error", "Failed to add administrator. Username and password already in use.")
-        #     print("Username/password already in use")
-
         self.ui.username_lineEdit.clear()
         self.ui.password_lineEdit.clear()
         self.loadAdminTable()
 
     def deleteAdministrator(self):
+        """Method deletes admin from administrators table in database."""
         # Check inputs
         username = self.ui.username_del_lineEdit.text()
         password = self.ui.password_del_lineEdit.text()

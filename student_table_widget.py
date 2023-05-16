@@ -34,6 +34,7 @@ class StudentTableWidget(QTableWidget):
 
 
     def setup_ui(self):
+        """Sets up ui for student_table_widget."""
         # Set up the table widget
         self.tableWidget.setColumnCount(8)
         self.load_students()
@@ -47,6 +48,7 @@ class StudentTableWidget(QTableWidget):
         
 
     def load_students(self):
+        """Method loads self (table) with students table."""
         # Retrieve the list of students from the database and populate the table widget
 
         # Temporary turn of item changed sig/slot
@@ -64,6 +66,7 @@ class StudentTableWidget(QTableWidget):
         self.set_item_changed_connection(True)
 
     def on_item_changed(self, item):
+        """Method runs when item from table is editied."""
         if self.isInUpdateMode == False: return
         if item is None: return
 
@@ -103,6 +106,7 @@ class StudentTableWidget(QTableWidget):
 
 
     def toggleUpdateMode(self):
+        """Method is used to turn update mode on/off."""
         if self.isInUpdateMode == True:
             self.isInUpdateMode = False
             self.updateMode_checkbox.setChecked(False)
@@ -118,20 +122,4 @@ class StudentTableWidget(QTableWidget):
             # Turn off the read-only mode and allow editing again
             self.tableWidget.setEditTriggers(QTableWidget.DoubleClicked | QTableWidget.EditKeyPressed)
             self.parent.consoleWidget.println("UpdateMode SET to TRUE")
-
-
-    def load_hardcoded_data(self):
-        data = [
-        ("John", "Doe", "1", "555-1234", "johndoe@email.com", "Math", "Applied Math", "3.8", "123 Main St", "New York"),
-        ("Jane", "Doe", "2", "555-5678", "janedoe@email.com", "English", "Creative Writing", "3.5", "456 Elm St", "Los Angeles"),
-        ("Bob", "Smith", "3", "555-9876", "bobsmith@email.com", "History", "American History", "3.2", "789 Oak St", "Chicago"),
-        ("Alice", "Johnson", "4", "555-4321", "alicejohnson@email.com", "Biology", "Genetics", "3.9", "321 Cedar St", "San Francisco"),
-        ("Alice", "Johnson", "5", "555-4321", "alicejohnson@email.com", "Biology", "Genetics", "3.9", "321 Cedar St", "San Francisco")
-        ]
-        self.setRowCount(len(data))
-        for row, student in enumerate(data):
-            for col, value in enumerate(student):
-                item = QTableWidgetItem(str(value))
-                self.setItem(row, col, item)
-
 

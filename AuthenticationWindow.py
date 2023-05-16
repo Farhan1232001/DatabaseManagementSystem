@@ -33,13 +33,16 @@ class AuthenticationWindow(QtWidgets.QWidget):
         del self.auth
 
     def closeWindow(self):
+        """Method closes Authentication window"""
         self.close()
         self.__del__()
 
     def setupui(self):
+        """Sets up ui for authentication window"""
         self.setWindowTitle("Authentication")
         
     def on_login_button_clicked(self):
+        """Runs when login button clicked."""
         # Handle the login button click event
         username = self.ui.username_lineEdit.text()
         password = self.ui.password_lineEdit.text()
@@ -57,4 +60,5 @@ class AuthenticationWindow(QtWidgets.QWidget):
         self.ui.password_lineEdit.clear()
 
     def isAuthenticated(self):
+        """Method checks if user is authenticated."""
         return self.__isAuthenticated

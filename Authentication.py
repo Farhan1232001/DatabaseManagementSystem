@@ -10,6 +10,7 @@ class Authentication:
     __instance = None
 
     def __new__(cls, db_file='students.db'):
+        """Used to create singleton object"""
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
             cls.__instance.con = sqlite3.connect(db_file)
@@ -37,6 +38,7 @@ class Authentication:
     #     self.cur.close()
 
     def closeWindow(self):
+        """Closes Window"""
         self.close()
         del self
 
@@ -139,6 +141,7 @@ class Authentication:
 
     # Delete a user from the database
     def delete_usr(self, username):
+        """Deletes user from database. Method searches for username, then deletes that entry"""
         # Execute a SELECT query to check if there are at least two usernames in the database
         self.cur.execute('SELECT COUNT(*) FROM Administrators')
         count = self.cur.fetchone()[0]
